@@ -46,7 +46,7 @@ _HOSTNAME=`hostname -I | cut -d ' ' -f 1`
 _FINAL=`echo ${_HOSTNAME} | cut -d '.' -f 4`
 _GATEWAY=`echo ${_HOSTNAME} | sed "s/\.${_FINAL}/\.1/g"`
 _ADDRESS=`echo ${_HOSTNAME} | sed "s/\.${_FINAL}/\.${_IP}/g"`
-_ETHERNET=`ip route list default | cut -d ' ' -f 5
+_ETHERNET=`ip route list default | cut -d ' ' -f 5`
 
 #------------------------------- FIM-VARIÁVEIS --------------------------------<
 
