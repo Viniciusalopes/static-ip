@@ -67,7 +67,7 @@ is_root()
 
 backup() 
 {
-    cp -v /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml_$(date_format Ymd_HMS)_bkp
+    cp -v /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml_$(date "+%Y%m%d_%H%M%S")_bkp
 }
 
 fix()
