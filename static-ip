@@ -5,10 +5,10 @@
 # AUTOR             : Vovolinux <suporte@vovolinux.com.br>
 # HOMEPAGE          : https://vovolinux.com.br 
 # DATA DE CRIAÇÃO   : 31/07/2021 às 23:09 
-# PROGRAMA          : gen-netplan-config
+# PROGRAMA          : static-ip
 # VERSÃO            : 1.0
 # LICENÇA           : MIT - © 2021 - Vovolinux
-# PEQUENA DESCRIÇÃO : Shell script to set IP to Ubuntu and derivatives
+# PEQUENA DESCRIÇÃO : Shell script to set a static IP to Ubuntu and derivatives
 #
 # CHANGELOG :
 #
@@ -24,7 +24,7 @@
 autor='Vovolinux'
 
 # Programa
-programa='gen-netplan-config'
+programa='static-ip'
 
 # Versão
 versao='1.0'
@@ -36,16 +36,15 @@ ano='2021'
 copyright="© 2021 - Vovolinux"
 
 if [[ $# -eq 0 ]]; then
-    _IP="172"
+    _FIX="172"
 else
-    _IP=${1}
+    _FIX=${1}
 fi
 
-_IP=${1}
 _HOSTNAME=`hostname -I | cut -d ' ' -f 1`
 _FINAL=`echo ${_HOSTNAME} | cut -d '.' -f 4`
 _GATEWAY=`echo ${_HOSTNAME} | sed "s/\.${_FINAL}/\.1/g"`
-_ADDRESS=`echo ${_HOSTNAME} | sed "s/\.${_FINAL}/\.${_IP}/g"`
+_ADDRESS=`echo ${_HOSTNAME} | sed "s/\.${_FINAL}/\.${_FIX}/g"`
 _ETHERNET=`ip route list default | cut -d ' ' -f 5`
 
 #------------------------------- FIM-VARIÁVEIS --------------------------------<
@@ -68,10 +67,10 @@ is_root()
 
 backup() 
 {
-    cp -v /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml.bkp
+    cp -v /etc/netplan/00-installer-config.yaml /etc/netplan/00-installer-config.yaml_$(date_format Ymd_HMS)_bkp
 }
 
-create()
+fix()
 {
     cat << EOF > /etc/netplan/00-installer-config.yaml
 # This is the network config written by 'vovolinux'
@@ -103,6 +102,6 @@ is_root
 # Programa começa aqui :)
 
 backup
-create
+fix
 netplan apply
-printf %b "\nO IP do servidor é: $_ADDRESS\n\n"
+printf %b "\nO IP estático é: $_ADDRESS\n\n"
